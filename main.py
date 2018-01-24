@@ -8,7 +8,7 @@ from config import FBPASS, FBUSER, CHATNAME, CITY
 from utils import far2cel
 
 
-class WeatherBot(Client):
+class FBBot(Client):
 
     def __init__(self, group_name, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -52,7 +52,7 @@ class WeatherBot(Client):
             self.send(msg, thread_id=self.thread_id_, thread_type=ThreadType.GROUP)
 
 
-client = WeatherBot(CHATNAME, FBUSER, FBPASS)
+client = FBBot(CHATNAME, FBUSER, FBPASS)
 
 stillborn = client.searchForGroups(CHATNAME)[0]
 
