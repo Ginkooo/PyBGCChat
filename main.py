@@ -2,8 +2,10 @@ import time
 
 from fbchat import Client, log
 from fbchat.models import Message, ThreadType
+import weather
 
-from config import FBPASS, FBUSER, CHATNAME
+from config import FBPASS, FBUSER, CHATNAME, CITY
+from utils import far2cel
 
 
 class WeatherBot(Client):
@@ -37,11 +39,23 @@ class WeatherBot(Client):
         msg = Message(text=f'Jest godzina: {curr_time}')
         self.send(msg, thread_id=thread_id, thread_type=ThreadType.GROUP)
 
+    def pogoda(self, thread_id):
+        weather_obj = weather.Weather()
+        location = weather_obj.lookup_by_location(CITY)
+        forecasts = location.forecast()
+        for forecast in forecasts[:3]:
+            min = round(far2cel(int(forecast.low())))
+            max = round(far2cel(int(forecast.high())))
+            text = forecast.text()
+            date = forecast.date()
+            msg = Message(text=f'Pododa na {date}: Od {min} do {max} stopni, {text}')
+            self.send(msg, thread_id=self.thread_id_, thread_type=ThreadType.GROUP)
+
 
 client = WeatherBot(CHATNAME, FBUSER, FBPASS)
 
 stillborn = client.searchForGroups(CHATNAME)[0]
 
-client.send(Message('Spytaj się mnie o godzinę'), thread_id=stillborn.uid, thread_type=ThreadType.GROUP)
+client.send(Message('Bot zwarty i gotowy do działania'), thread_id=stillborn.uid, thread_type=ThreadType.GROUP)
 
 client.listen()
