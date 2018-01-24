@@ -56,6 +56,7 @@ client = FBBot(CHATNAME, FBUSER, FBPASS)
 
 stillborn = client.searchForGroups(CHATNAME)[0]
 
-client.send(Message('Bot zwarty i gotowy do działania'), thread_id=stillborn.uid, thread_type=ThreadType.GROUP)
+
+client.send(Message(text='Bot zwarty i gotowy do działania'), thread_id=stillborn.uid, thread_type=ThreadType.GROUP)
 
 client.listen()
