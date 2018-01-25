@@ -48,7 +48,7 @@ class FBBot(Client):
             max = round(far2cel(int(forecast.high())))
             text = forecast.text()
             date = forecast.date()
-            msg = Message(text=f'Pododa na {date}: Od {min} do {max} stopni, {text}')
+            msg = Message(text=f'Pogoda na {date}: Od {min} do {max} stopni, {text}')
             self.send(msg, thread_id=self.thread_id_, thread_type=ThreadType.GROUP)
 
 
@@ -56,6 +56,7 @@ client = FBBot(CHATNAME, FBUSER, FBPASS)
 
 stillborn = client.searchForGroups(CHATNAME)[0]
 
-client.send(Message('Bot zwarty i gotowy do działania'), thread_id=stillborn.uid, thread_type=ThreadType.GROUP)
+
+client.send(Message(text='Bot zwarty i gotowy do działania'), thread_id=stillborn.uid, thread_type=ThreadType.GROUP)
 
 client.listen()
